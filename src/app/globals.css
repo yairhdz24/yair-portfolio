@@ -1,26 +1,203 @@
+@import url('https://fonts.cdnfonts.com/css/garet');
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============ THEME VARIABLES ============ */
+:root {
+  --radius: 0.625rem;
+
+  /* Dark mode (default) */
+  --bg: #0F172A;
+  --bg-card: #1E293B;
+  --bg-elevated: #334155;
+  --bg-input: rgba(148, 163, 184, 0.06);
+  --text: #F1F5F9;
+  --text-dim: #CBD5E1;
+  --text-muted: #94A3B8;
+  --text-faint: #64748B;
+  --text-ghost: rgba(241, 245, 249, 0.06);
+  --border-subtle: rgba(148, 163, 184, 0.08);
+  --border-hover: rgba(148, 163, 184, 0.15);
+  --glass-bg: rgba(30, 41, 59, 0.65);
+  --glass-hover: rgba(39, 53, 72, 0.75);
+  --glass-border: rgba(148, 163, 184, 0.07);
+  --blue: #3B82F6;
+  --emerald: #10B981;
+  --amber: #F59E0B;
+  --vignette-color: #0F172A;
+
+  /* shadcn vars */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--bg-card);
+  --card-foreground: var(--text);
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text);
+  --primary: var(--blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg-card);
+  --secondary-foreground: var(--text);
+  --muted: var(--bg-card);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--emerald);
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: var(--border-subtle);
+  --input: var(--bg-input);
+  --ring: var(--blue);
+}
+
+:root.light {
+  --bg: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F1F5F9;
+  --bg-input: rgba(15, 23, 42, 0.04);
+  --text: #0F172A;
+  --text-dim: #334155;
+  --text-muted: #64748B;
+  --text-faint: #94A3B8;
+  --text-ghost: rgba(15, 23, 42, 0.04);
+  --border-subtle: rgba(15, 23, 42, 0.07);
+  --border-hover: rgba(15, 23, 42, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-hover: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(15, 23, 42, 0.06);
+  --blue: #2563EB;
+  --emerald: #059669;
+  --amber: #D97706;
+  --vignette-color: #F8FAFC;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  background: var(--bg);
+  font-family: 'Garet', sans-serif;
+  color: var(--text);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--text);
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
+
+/* ======== ANIMATED GRADIENT ======== */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* ======== GLOW ======== */
+.glow-text {
+  text-shadow: 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1);
+}
+
+/* ======== GLASS ======== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--glass-border);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.glass:hover {
+  background: var(--glass-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ======== GRAIN ======== */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ======== AURORA ======== */
+@keyframes aurora {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 10px) scale(1.02); }
+}
+.aurora-blob {
+  animation: aurora 12s ease-in-out infinite;
+  filter: blur(80px);
+}
+
+/* ======== CURSOR BLINK ======== */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.cursor-blink { animation: cursor-blink 1s step-end infinite; }
+
+/* ======== FLOATING ======== */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+.float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+/* ======== SHIMMER (for buttons) ======== */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

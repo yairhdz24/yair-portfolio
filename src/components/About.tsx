@@ -27,7 +27,7 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-function CurvedUnderline({ color = "#22C55E", delay = 0 }: { color?: string; delay?: number }) {
+function CurvedUnderline({ color = "#8B5CF6", delay = 0 }: { color?: string; delay?: number }) {
   return (
     <motion.svg
       viewBox="0 0 200 12"
@@ -74,15 +74,15 @@ export default function About() {
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <div
           className="absolute top-[15%] left-[25%] w-[700px] h-[500px] rounded-full blur-[200px]"
-          style={{ background: "#22C55E", opacity: 0.04 }}
+          style={{ background: "#8B5CF6", opacity: 0.05 }}
         />
         <div
           className="absolute top-[45%] right-[15%] w-[600px] h-[400px] rounded-full blur-[180px]"
-          style={{ background: "#FFFFFF", opacity: 0.02 }}
+          style={{ background: "#06B6D4", opacity: 0.03 }}
         />
         <div
           className="absolute bottom-[10%] left-[50%] w-[400px] h-[300px] rounded-full blur-[150px]"
-          style={{ background: "#22C55E", opacity: 0.02 }}
+          style={{ background: "#8B5CF6", opacity: 0.03 }}
         />
       </motion.div>
 
@@ -91,7 +91,7 @@ export default function About() {
         <div className="mb-16 md:mb-24">
           <motion.span
             className="text-sm tracking-[0.25em] uppercase mb-5 block font-bold"
-            style={{ color: "#22C55E" }}
+            style={{ color: "#8B5CF6" }}
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
@@ -107,11 +107,11 @@ export default function About() {
           >
             <span className="relative inline-block" style={{ color: "var(--text)" }}>
               Yair
-              {inView && <CurvedUnderline color="#22C55E" delay={0.8} />}
+              {inView && <CurvedUnderline color="#8B5CF6" delay={0.8} />}
             </span>{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                background: "linear-gradient(135deg, #8B5CF6, #06B6D4)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -168,7 +168,7 @@ export default function About() {
                 {/* Status indicator at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-[2]">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
                     <span
                       className="text-xs font-bold tracking-[0.15em] uppercase"
                       style={{ color: "rgba(255,255,255,0.7)" }}
@@ -195,11 +195,11 @@ export default function About() {
             >
               <div
                 className="pl-8 md:pl-10 relative"
-                style={{ borderLeft: "2px solid rgba(34,197,94,0.2)" }}
+                style={{ borderLeft: "2px solid rgba(139,92,246,0.2)" }}
               >
                 <motion.div
                   className="absolute left-0 top-0 w-[2px]"
-                  style={{ background: "linear-gradient(to bottom, #22C55E, #16A34A)" }}
+                  style={{ background: "linear-gradient(to bottom, #8B5CF6, #06B6D4)" }}
                   initial={{ height: 0 }}
                   animate={inView ? { height: "100%" } : {}}
                   transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
@@ -218,7 +218,7 @@ export default function About() {
                       <motion.path
                         d="M0 6 Q75 0, 150 4 T300 2"
                         fill="none"
-                        stroke="#22C55E"
+                        stroke="#8B5CF6"
                         strokeWidth="2"
                         strokeLinecap="round"
                         initial={{ pathLength: 0, opacity: 0 }}
@@ -268,24 +268,23 @@ export default function About() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.4 + i * 0.1, duration: 0.6 }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#22C55E";
+                    e.currentTarget.style.borderColor = "#8B5CF6";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = "var(--border-subtle)";
                   }}
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <div
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: "#22C55E" }}
-                    />
-                    <p
-                      className="text-3xl md:text-4xl font-bold"
-                      style={{ fontFamily: "'Garet', sans-serif", color: "#22C55E" }}
-                    >
-                      <Counter target={statValues[i].n} suffix={statValues[i].s} />
-                    </p>
-                  </div>
+                  <p
+                    className="text-3xl md:text-4xl font-bold mb-1"
+                    style={{
+                      fontFamily: "'Garet', sans-serif",
+                      background: "linear-gradient(135deg, #8B5CF6, #06B6D4)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    <Counter target={statValues[i].n} suffix={statValues[i].s} />
+                  </p>
                   <p
                     className="text-xs font-medium"
                     style={{ color: "var(--text-faint)" }}

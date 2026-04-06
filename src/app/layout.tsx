@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
@@ -33,7 +34,9 @@ export default function RootLayout({
       <body className={`${jetbrains.variable} antialiased grain`}>
         <ThemeProvider>
           <LanguageProvider>
-            {children}
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -1,17 +1,22 @@
 "use client";
 
-import { SiGithub, SiLinkedin, SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiSupabase, SiN8N, SiVercel } from "react-icons/si";
+import { SiGithub, SiLinkedin, SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiSupabase, SiN8N, SiVercel, SiNodedotjs, SiPostgresql, SiOpenai, SiDocker } from "react-icons/si";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import { useLang } from "./LanguageProvider";
+import InfiniteMarquee from "./InfiniteMarquee";
 
-const techIcons = [
-  { icon: SiReact, color: "#61dafb" },
-  { icon: SiNextdotjs, color: "#ffffff" },
-  { icon: SiTypescript, color: "#3178c6" },
-  { icon: SiTailwindcss, color: "#06b6d4" },
-  { icon: SiSupabase, color: "#3ecf8e" },
-  { icon: SiN8N, color: "#ea4b71" },
-  { icon: SiVercel, color: "#ffffff" },
+const marqueeItems = [
+  { icon: SiReact, name: "React", color: "#61dafb" },
+  { icon: SiNextdotjs, name: "Next.js", color: "#94a3b8" },
+  { icon: SiTypescript, name: "TypeScript", color: "#3178c6" },
+  { icon: SiTailwindcss, name: "Tailwind", color: "#06b6d4" },
+  { icon: SiNodedotjs, name: "Node.js", color: "#339933" },
+  { icon: SiSupabase, name: "Supabase", color: "#3ecf8e" },
+  { icon: SiPostgresql, name: "PostgreSQL", color: "#4169e1" },
+  { icon: SiN8N, name: "n8n", color: "#ea4b71" },
+  { icon: SiOpenai, name: "OpenAI", color: "#10a37f" },
+  { icon: SiDocker, name: "Docker", color: "#2496ed" },
+  { icon: SiVercel, name: "Vercel", color: "#94a3b8" },
 ];
 
 export default function Footer() {
@@ -19,13 +24,9 @@ export default function Footer() {
 
   return (
     <footer style={{ background: "var(--bg)", borderTop: "1px solid var(--border-subtle)" }}>
-      {/* Tech icons band */}
-      <div className="py-6 px-6" style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-        <div className="max-w-6xl mx-auto flex items-center justify-center gap-8 flex-wrap">
-          {techIcons.map((tech, i) => (
-            <tech.icon key={i} className="text-lg opacity-25 hover:opacity-60 transition-opacity duration-300 cursor-default" style={{ color: tech.color }} />
-          ))}
-        </div>
+      {/* Tech marquee band */}
+      <div className="py-5" style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+        <InfiniteMarquee items={marqueeItems} speed={35} direction="left" separator="—" />
       </div>
 
       {/* Main footer */}

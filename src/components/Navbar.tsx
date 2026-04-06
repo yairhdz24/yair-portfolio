@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HiOutlineSun, HiOutlineMoon, HiBriefcase, HiUser, HiEnvelope, HiCommandLine } from "react-icons/hi2";
+import { HiOutlineSun, HiOutlineMoon, HiBriefcase, HiUser, HiEnvelope, HiCommandLine, HiOutlineSparkles } from "react-icons/hi2";
 import { useTheme } from "./ThemeProvider";
 import { useLang } from "./LanguageProvider";
+import MagneticButton from "./MagneticButton";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,6 +17,7 @@ export default function Navbar() {
     { href: "#servicios", label: t.nav.services, icon: <HiCommandLine className="w-3.5 h-3.5" /> },
     { href: "#trabajo", label: t.nav.work, icon: <HiBriefcase className="w-3.5 h-3.5" /> },
     { href: "#sobre-mi", label: t.nav.about, icon: <HiUser className="w-3.5 h-3.5" /> },
+    { href: "#cotizar", label: lang === "es" ? "Cotizar" : "Pricing", icon: <HiOutlineSparkles className="w-3.5 h-3.5" /> },
     { href: "#contacto", label: t.nav.contact, icon: <HiEnvelope className="w-3.5 h-3.5" /> },
   ];
 
@@ -95,21 +97,20 @@ export default function Navbar() {
               {isDark ? (
                 <HiOutlineSun className="text-lg" style={{ color: "#FBBF24" }} />
               ) : (
-                <HiOutlineMoon className="text-lg" style={{ color: "#0F172A" }} />
+                <HiOutlineMoon className="text-lg" style={{ color: "#09090B" }} />
               )}
             </button>
 
-            {/* CTA — emerald gradient */}
-            <a
-              href="#contacto"
-              className="text-[13px] px-6 py-2.5 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 hover:scale-105"
+            {/* CTA — indigo gradient with magnetic effect */}
+            <MagneticButton as="a" href="#contacto" strength={0.3} radius={120}
+              className="text-[13px] px-6 py-2.5 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-amber-600/25 inline-block magnetic-glow"
               style={{
-                background: "linear-gradient(135deg, #10B981, #06B6D4)",
+                background: "linear-gradient(135deg, #B8860B, #D4A053)",
                 fontFamily: "'Garet', sans-serif",
               }}
             >
               {t.nav.cta}
-            </a>
+            </MagneticButton>
           </div>
 
           {/* Mobile controls */}
@@ -129,7 +130,7 @@ export default function Navbar() {
               {isDark ? (
                 <HiOutlineSun className="text-base" style={{ color: "#FBBF24" }} />
               ) : (
-                <HiOutlineMoon className="text-base" style={{ color: "#0F172A" }} />
+                <HiOutlineMoon className="text-base" style={{ color: "#09090B" }} />
               )}
             </button>
             <button
@@ -216,7 +217,7 @@ export default function Navbar() {
                 href="#contacto"
                 onClick={() => setOpen(false)}
                 className="block text-center py-4 rounded-full text-white text-lg font-bold"
-                style={{ background: "linear-gradient(135deg, #10B981, #06B6D4)", fontFamily: "'Garet', sans-serif" }}
+                style={{ background: "linear-gradient(135deg, #B8860B, #D4A053)", fontFamily: "'Garet', sans-serif" }}
               >
                 {t.nav.cta}
               </a>

@@ -18,7 +18,7 @@ const projectsMeta = [
       { icon: SiStripe, name: "Stripe", color: "#635bff" },
       { icon: SiN8N, name: "n8n", color: "#ea4b71" },
     ],
-    accent: "#10B981",
+    accent: "#D4A053",
     year: "2025",
     image: "/projects/saas-platform.png",
     detailEs: "Plataforma SaaS multi-tenant con billing automatizado vía Stripe, dashboards en tiempo real, autenticación robusta y flujos de automatización con n8n integrados.",
@@ -31,7 +31,7 @@ const projectsMeta = [
       { icon: SiNodedotjs, name: "Node.js", color: "#339933" },
       { icon: SiPostgresql, name: "PostgreSQL", color: "#4169e1" },
     ],
-    accent: "#3B82F6",
+    accent: "#E87461",
     year: "2024",
     image: "/projects/ecommerce.png",
     detailEs: "E-Commerce premium con catálogo de 10K+ productos, checkout optimizado, analytics avanzados de conversión y pasarela de pagos integrada con Stripe.",
@@ -44,7 +44,7 @@ const projectsMeta = [
       { icon: SiSupabase, name: "Supabase", color: "#3ecf8e" },
       { icon: SiTypescript, name: "TypeScript", color: "#3178c6" },
     ],
-    accent: "#F59E0B",
+    accent: "#C9A96E",
     year: "2024",
     image: "/projects/crm-ai.png",
     detailEs: "CRM potenciado con IA — lead scoring automatizado, seguimiento inteligente, chatbot integrado en el sitio web y reportes predictivos que se generan solos.",
@@ -57,7 +57,7 @@ const projectsMeta = [
       { icon: SiTailwindcss, name: "NativeWind", color: "#06b6d4" },
       { icon: SiSupabase, name: "Supabase", color: "#3ecf8e" },
     ],
-    accent: "#8B5CF6",
+    accent: "#B5838D",
     year: "2025",
     image: "/projects/mobile-app.png",
     detailEs: "App móvil nativa para iOS y Android con Expo y React Native. Autenticación biométrica, notificaciones push, modo offline y sincronización en tiempo real.",
@@ -89,11 +89,7 @@ function ProjectCard({
   });
   const imageY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
-  const accentDisplay = !isDark && meta.accent === "#F59E0B" ? "#B45309"
-    : !isDark && meta.accent === "#10B981" ? "#047857"
-    : !isDark && meta.accent === "#3B82F6" ? "#1D4ED8"
-    : !isDark && meta.accent === "#8B5CF6" ? "#7C3AED"
-    : meta.accent;
+  const accentDisplay = meta.accent;
 
   return (
     <motion.div
@@ -159,8 +155,8 @@ function ProjectCard({
                 borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)"}`,
               }}>
                 <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
-                <div className="w-2 h-2 rounded-full" style={{ background: "#F59E0B" }} />
-                <div className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />
+                <div className="w-2 h-2 rounded-full" style={{ background: "#D4A053" }} />
+                <div className="w-2 h-2 rounded-full" style={{ background: "#E87461" }} />
                 <div className="ml-3 flex-1 h-4 rounded-full" style={{
                   background: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
                 }} />
@@ -285,7 +281,7 @@ export default function Projects() {
           <div>
             <motion.span
               className="text-xs tracking-[0.25em] uppercase mb-3 block font-bold"
-              style={{ color: "#10B981" }}
+              style={{ color: "var(--accent-1)" }}
               initial={{ opacity: 0, x: -20 }}
               animate={headerInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6 }}
@@ -302,7 +298,7 @@ export default function Projects() {
               {t.projects.t1}{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #10B981, #3B82F6)",
+                  background: "linear-gradient(135deg, var(--accent-1), var(--accent-2))",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -367,11 +363,7 @@ export default function Projects() {
         {expandedIndex !== null && (() => {
           const meta = projectsMeta[expandedIndex];
           const txt = t.projects.items[expandedIndex];
-          const accentDisplay = !isDark && meta.accent === "#F59E0B" ? "#B45309"
-            : !isDark && meta.accent === "#10B981" ? "#047857"
-            : !isDark && meta.accent === "#3B82F6" ? "#1D4ED8"
-            : !isDark && meta.accent === "#8B5CF6" ? "#7C3AED"
-            : meta.accent;
+          const accentDisplay = meta.accent;
 
           return (
             <motion.div
@@ -385,7 +377,7 @@ export default function Projects() {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: isDark ? "rgba(15,23,42,0.85)" : "rgba(248,250,252,0.9)",
+                  background: isDark ? "rgba(8,8,12,0.88)" : "rgba(250,250,250,0.92)",
                   backdropFilter: "blur(16px)",
                 }}
                 onClick={() => setExpandedIndex(null)}
@@ -395,7 +387,7 @@ export default function Projects() {
               <motion.div
                 className="relative w-full max-w-3xl rounded-3xl overflow-hidden"
                 style={{
-                  background: isDark ? "rgba(30,41,59,0.95)" : "rgba(255,255,255,0.98)",
+                  background: isDark ? "rgba(17,17,22,0.97)" : "rgba(255,255,255,0.98)",
                   border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)"}`,
                   boxShadow: `0 40px 100px -20px ${accentDisplay}20`,
                 }}
@@ -419,8 +411,8 @@ export default function Projects() {
                 {/* Image area */}
                 <div className="relative h-48 md:h-64 overflow-hidden" style={{
                   background: isDark
-                    ? `linear-gradient(160deg, #0F172A 0%, ${meta.accent}15 50%, #0F172A 100%)`
-                    : `linear-gradient(160deg, #F8FAFC 0%, ${meta.accent}12 50%, #F8FAFC 100%)`,
+                    ? `linear-gradient(160deg, #0A0A0A 0%, ${meta.accent}12 50%, #0A0A0A 100%)`
+                    : `linear-gradient(160deg, #FAF9F7 0%, ${meta.accent}10 50%, #FAF9F7 100%)`,
                 }}>
                   <div
                     className="absolute inset-0"
@@ -439,8 +431,8 @@ export default function Projects() {
                       borderBottom: `1px solid ${isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)"}`,
                     }}>
                       <div className="w-2 h-2 rounded-full" style={{ background: "#EF4444" }} />
-                      <div className="w-2 h-2 rounded-full" style={{ background: "#F59E0B" }} />
-                      <div className="w-2 h-2 rounded-full" style={{ background: "#10B981" }} />
+                      <div className="w-2 h-2 rounded-full" style={{ background: "#D4A053" }} />
+                      <div className="w-2 h-2 rounded-full" style={{ background: "#E87461" }} />
                     </div>
                     <div className="p-4 space-y-2">
                       <div className="h-4 rounded-full w-2/3" style={{ background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)" }} />

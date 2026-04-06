@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useCallback } from "react";
 import {
   SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs,
@@ -46,6 +46,13 @@ export default function TechGrid() {
   const { t, lang } = useLang();
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // Scroll-driven horizontal parallax for rows
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const row0X = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const row1X = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  const row2X = useTransform(scrollYProgress, [0, 1], [15, -15]);
+  const rowXValues = [row0X, row1X, row2X];
 
   const [glowPos, setGlowPos] = useState({ x: 0, y: 0, visible: false });
 
@@ -112,8 +119,8 @@ export default function TechGrid() {
                 height: 350,
                 opacity: glowPos.visible ? 1 : 0,
                 background: isDark
-                  ? "radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.04) 40%, transparent 70%)"
-                  : "radial-gradient(circle, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0.03) 40%, transparent 70%)",
+                  ? "radial-gradient(circle, rgba(212,160,83,0.12) 0%, rgba(212,160,83,0.03) 40%, transparent 70%)"
+                  : "radial-gradient(circle, rgba(184,134,11,0.10) 0%, rgba(184,134,11,0.02) 40%, transparent 70%)",
                 transition: "left 0.1s ease-out, top 0.1s ease-out, opacity 0.3s ease",
                 zIndex: 0,
               }}
@@ -121,11 +128,12 @@ export default function TechGrid() {
 
             <div className="flex flex-col gap-2.5 relative z-10">
               {rows.map((row, rowIdx) => (
-                <div
+                <motion.div
                   key={rowIdx}
                   className="flex gap-2.5 justify-center"
                   style={{
                     paddingLeft: rowIdx === 1 ? "40px" : "0",
+                    x: rowXValues[rowIdx],
                   }}
                 >
                   {row.map((tech, colIdx) => {
@@ -145,8 +153,9 @@ export default function TechGrid() {
                         animate={inView ? { opacity: 1, scale: 1 } : {}}
                         transition={{ delay, duration: 0.4, ease: "easeOut" }}
                         whileHover={{
-                          y: -5,
-                          transition: { duration: 0.2, ease: "easeOut" },
+                          y: -8,
+                          scale: 1.1,
+                          transition: { duration: 0.25, ease: "easeOut" },
                         }}
                       >
                         {/* Glow border + shadow on CARD hover */}
@@ -154,7 +163,7 @@ export default function TechGrid() {
                           className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
                           style={{
                             border: `1px solid ${c}60`,
-                            boxShadow: `0 0 20px ${c}25, 0 4px 12px rgba(0,0,0,0.1)`,
+                            boxShadow: `0 0 25px ${c}30, 0 8px 16px rgba(0,0,0,0.12)`,
                           }}
                         />
                         {/* Icon — activates color on CARD hover, not just icon hover */}
@@ -162,10 +171,17 @@ export default function TechGrid() {
                           className="text-[26px] transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-110"
                           style={{ color: c }}
                         />
+                        {/* Tech name tooltip on hover */}
+                        <div
+                          className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none"
+                          style={{ color: c }}
+                        >
+                          {tech.name}
+                        </div>
                       </motion.div>
                     );
                   })}
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

@@ -6,6 +6,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useLang } from "./LanguageProvider";
 import { useTheme } from "./ThemeProvider";
+import { useSmoothScroll } from "./SmoothScroll";
 import { HiArrowRight, HiChatBubbleLeftRight } from "react-icons/hi2";
 
 /* ─────────────────────────────────────────────
@@ -119,10 +120,10 @@ function ParticleField({
         />
       </bufferGeometry>
       <pointsMaterial
-        size={isDark ? 0.08 : 0.13}
-        color={isDark ? "#10B981" : "#0F172A"}
+        size={isDark ? 0.08 : 0.12}
+        color={isDark ? "#D4A053" : "#B8860B"}
         transparent
-        opacity={isDark ? 0.6 : 0.5}
+        opacity={isDark ? 0.5 : 0.4}
         sizeAttenuation
         map={circleTexture}
         alphaMap={circleTexture}
@@ -133,64 +134,84 @@ function ParticleField({
 }
 
 /* ─────────────────────────────────────────────
-   3D: Glowing Prism — centered, spins on axis
-   with green/blue tech glow on edges
+   3D: Morphing Geometric Shape — icosahedron
+   with dual-layer wireframe glow
    ───────────────────────────────────────────── */
-function PrismShape({
+function GeometricShape({
   mouse,
 }: {
   mouse: { x: number; y: number };
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const innerRef = useRef<THREE.Group>(null);
 
-  const [prismGeo] = useState(() => {
-    const geo = new THREE.CylinderGeometry(1.6, 1.6, 2.8, 3, 1);
-    geo.rotateX(Math.PI / 2);
-    return geo;
-  });
-
-  const [edgesGeo] = useState(() => new THREE.EdgesGeometry(prismGeo));
+  const [icoGeo] = useState(() => new THREE.IcosahedronGeometry(1.8, 1));
+  const [icoEdges] = useState(() => new THREE.EdgesGeometry(icoGeo));
+  const [octaGeo] = useState(() => new THREE.OctahedronGeometry(1.1, 0));
+  const [octaEdges] = useState(() => new THREE.EdgesGeometry(octaGeo));
 
   useFrame((state) => {
-    if (!groupRef.current) return;
+    if (!groupRef.current || !innerRef.current) return;
     const t = state.clock.elapsedTime;
-    // Spin on its own axis
-    groupRef.current.rotation.z = t * 0.25;
-    // Gentle tilt so you always see the 3D triangular shape
-    groupRef.current.rotation.x = 0.35 + Math.sin(t * 0.1) * 0.05;
-    groupRef.current.rotation.y = Math.sin(t * 0.08) * 0.1;
-    // Mouse displaces gently
+    // Outer shape — slow rotation
+    groupRef.current.rotation.x = t * 0.15;
+    groupRef.current.rotation.y = t * 0.2;
+    groupRef.current.rotation.z = Math.sin(t * 0.1) * 0.1;
+    // Inner shape — counter-rotation
+    innerRef.current.rotation.x = -t * 0.3;
+    innerRef.current.rotation.y = -t * 0.25;
+    // Gentle breathing scale
+    const breathe = 1 + Math.sin(t * 0.5) * 0.05;
+    groupRef.current.scale.setScalar(breathe);
+    // Mouse influence
     groupRef.current.position.x +=
-      (mouse.x * 1.2 - groupRef.current.position.x) * 0.02;
+      (mouse.x * 1.0 - groupRef.current.position.x) * 0.015;
     groupRef.current.position.y +=
-      (-mouse.y * 1.0 - groupRef.current.position.y) * 0.02;
+      (-mouse.y * 0.8 - groupRef.current.position.y) * 0.015;
   });
 
   return (
     <group position={[0, 0, 0]}>
       <group ref={groupRef}>
-        {/* Glass fill */}
+        {/* Outer icosahedron — glass fill */}
         <mesh>
-          <primitive object={prismGeo} attach="geometry" />
+          <primitive object={icoGeo} attach="geometry" />
           <meshPhysicalMaterial
-            color="#10B981"
+            color="#D4A053"
             transparent
-            opacity={0.04}
+            opacity={0.03}
             side={THREE.DoubleSide}
             roughness={0.1}
-            metalness={0.3}
+            metalness={0.5}
           />
         </mesh>
-        {/* Main edges — green glow */}
+        {/* Outer edges — indigo */}
         <lineSegments>
-          <primitive object={edgesGeo} attach="geometry" />
-          <lineBasicMaterial color="#10B981" transparent opacity={0.5} />
+          <primitive object={icoEdges} attach="geometry" />
+          <lineBasicMaterial color="#D4A053" transparent opacity={0.35} />
         </lineSegments>
-        {/* Second edge layer — blue glow, slightly larger */}
-        <lineSegments scale={1.02}>
-          <primitive object={edgesGeo} attach="geometry" />
-          <lineBasicMaterial color="#3B82F6" transparent opacity={0.2} />
+        {/* Outer glow layer */}
+        <lineSegments scale={1.015}>
+          <primitive object={icoEdges} attach="geometry" />
+          <lineBasicMaterial color="#E87461" transparent opacity={0.12} />
         </lineSegments>
+
+        {/* Inner octahedron */}
+        <group ref={innerRef}>
+          <lineSegments>
+            <primitive object={octaEdges} attach="geometry" />
+            <lineBasicMaterial color="#C9A96E" transparent opacity={0.3} />
+          </lineSegments>
+          <mesh>
+            <primitive object={octaGeo} attach="geometry" />
+            <meshPhysicalMaterial
+              color="#C9A96E"
+              transparent
+              opacity={0.02}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+        </group>
       </group>
     </group>
   );
@@ -219,7 +240,7 @@ function HeroButton({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setRipple(true);
-    // After ripple animation, scroll to section
+    // Lenis handles scroll via the anchor click listener in SmoothScroll
     setTimeout(() => {
       setRipple(false);
       const target = document.querySelector(href);
@@ -243,8 +264,8 @@ function HeroButton({
               className="absolute top-1/2 left-1/2 rounded-full"
               style={{
                 background: isPrimary
-                  ? "radial-gradient(circle, rgba(16,185,129,0.3) 0%, transparent 70%)"
-                  : "radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%)",
+                  ? "radial-gradient(circle, rgba(212,160,83,0.25) 0%, transparent 70%)"
+                  : "radial-gradient(circle, rgba(232,116,97,0.15) 0%, transparent 70%)",
               }}
               initial={{ width: 0, height: 0, x: "-50%", y: "-50%" }}
               animate={{ width: "200vmax", height: "200vmax", x: "-50%", y: "-50%" }}
@@ -272,12 +293,13 @@ function HeroButton({
           text-sm font-bold tracking-wide cursor-pointer overflow-hidden
           transition-all duration-500 ease-out
           ${isPrimary
-            ? "bg-linear-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/25"
+            ? "text-white shadow-lg shadow-amber-600/25 pulse-glow"
             : isDark
-              ? "border border-white/20 text-white/70 hover:text-white hover:border-emerald-400/50"
-              : "border border-black/15 text-black/60 hover:text-black hover:border-emerald-500/50"
+              ? "border border-white/15 text-white/60 hover:text-white hover:border-amber-400/40"
+              : "border border-black/12 text-black/50 hover:text-black hover:border-amber-600/40"
           }
         `}
+        style={isPrimary ? { background: "linear-gradient(135deg, #B8860B, #D4A053, #C9A96E)" } : undefined}
       >
         {/* Glow layer for primary */}
         {isPrimary && (
@@ -294,7 +316,7 @@ function HeroButton({
             <div
               className="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10"
               style={{
-                background: "linear-gradient(135deg, #10B981, #06B6D4)",
+                background: "linear-gradient(135deg, #D4A053, #E87461)",
               }}
             />
           </>
@@ -305,8 +327,8 @@ function HeroButton({
             className="absolute -inset-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md -z-10"
             style={{
               background: isDark
-                ? "rgba(16, 185, 129, 0.15)"
-                : "rgba(16, 185, 129, 0.1)",
+                ? "rgba(212, 160, 83, 0.12)"
+                : "rgba(184, 134, 11, 0.08)",
             }}
           />
         )}
@@ -336,16 +358,44 @@ export default function HeroAnimation() {
 
   const { lang, t } = useLang();
   const { theme } = useTheme();
+  const { start: startScroll } = useSmoothScroll();
   const isDark = theme === "dark";
 
   const phrases = lang === "es" ? phrasesEs : phrasesEn;
 
-  const bg = isDark ? "#0F172A" : "#F8FAFC";
-  const mutedColor = isDark ? "#94A3B8" : "#64748B";
-  const accent = isDark ? "#FFFFFF" : "#0F172A";
+  const bg = isDark ? "#0A0A0A" : "#FAF9F7";
+  const mutedColor = isDark ? "#7C7C87" : "#71717A";
+  const accent = isDark ? "#F0EDE8" : "#1A1815";
+
+  // Lock scroll during intro — Lenis starts stopped, we enable when phase changes
+  useEffect(() => {
+    if (phase === 0) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.inset = "0";
+      document.body.style.width = "100%";
+    } else {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.inset = "";
+      document.body.style.width = "";
+      startScroll();
+    }
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.inset = "";
+      document.body.style.width = "";
+    };
+  }, [phase, startScroll]);
 
   // Phase timing
   useEffect(() => {
+    // Scroll to top on mount
+    window.scrollTo(0, 0);
     const t1 = setTimeout(() => setPhase(1), 2200);
     const t2 = setTimeout(() => setPhase(2), 3800);
     return () => {
@@ -419,11 +469,12 @@ export default function HeroAnimation() {
           gl={{ antialias: true, alpha: true }}
           style={{ background: "transparent" }}
         >
-          <ambientLight intensity={0.4} />
-          <pointLight position={[5, 5, 5]} intensity={0.3} color="#3B82F6" />
-          <pointLight position={[-5, -3, 3]} intensity={0.2} color="#10B981" />
+          <ambientLight intensity={0.3} />
+          <pointLight position={[5, 5, 5]} intensity={0.4} color="#D4A053" />
+          <pointLight position={[-5, -3, 3]} intensity={0.25} color="#E87461" />
+          <pointLight position={[0, -5, 2]} intensity={0.15} color="#C9A96E" />
           <ParticleField mouse={mouse} isDark={isDark} />
-          {phase >= 1 && <PrismShape mouse={mouse} />}
+          {phase >= 1 && <GeometricShape mouse={mouse} />}
         </Canvas>
       </div>
 
@@ -584,7 +635,7 @@ export default function HeroAnimation() {
                 className="h-px w-16"
                 style={{
                   background: `linear-gradient(to right, transparent, ${
-                    isDark ? "rgba(16,185,129,0.5)" : "rgba(5,150,105,0.4)"
+                    isDark ? "rgba(212,160,83,0.5)" : "rgba(184,134,11,0.4)"
                   })`,
                 }}
               />
@@ -593,10 +644,10 @@ export default function HeroAnimation() {
                 className="text-sm md:text-base tracking-[0.15em] uppercase whitespace-nowrap"
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
-                  color: isDark ? "#10B981" : "#059669",
+                  color: isDark ? "#D4A053" : "#B8860B",
                   textShadow: isDark
-                    ? "0 0 20px rgba(16,185,129,0.4), 0 0 40px rgba(16,185,129,0.1)"
-                    : "0 0 15px rgba(5,150,105,0.2)",
+                    ? "0 0 20px rgba(212,160,83,0.4), 0 0 40px rgba(212,160,83,0.1)"
+                    : "0 0 15px rgba(184,134,11,0.2)",
                 }}
               >
                 <span style={{ opacity: 0.5 }}>{">"}</span>{" "}
@@ -604,9 +655,9 @@ export default function HeroAnimation() {
                 <span
                   className="inline-block w-0.5 h-[1.1em] ml-1 align-middle"
                   style={{
-                    background: isDark ? "#10B981" : "#059669",
+                    background: isDark ? "#D4A053" : "#B8860B",
                     animation: "cursor-blink 1s step-end infinite",
-                    boxShadow: isDark ? "0 0 8px rgba(16,185,129,0.6)" : "none",
+                    boxShadow: isDark ? "0 0 8px rgba(212,160,83,0.6)" : "none",
                   }}
                 />
               </span>
@@ -614,7 +665,7 @@ export default function HeroAnimation() {
                 className="h-px w-16"
                 style={{
                   background: `linear-gradient(to left, transparent, ${
-                    isDark ? "rgba(16,185,129,0.5)" : "rgba(5,150,105,0.4)"
+                    isDark ? "rgba(212,160,83,0.5)" : "rgba(184,134,11,0.4)"
                   })`,
                 }}
               />
@@ -682,13 +733,13 @@ export default function HeroAnimation() {
             className="w-5 h-9 rounded-full flex items-start justify-center p-2"
             style={{
               border: `1px solid ${
-                isDark ? "rgba(16,185,129,0.3)" : "rgba(5,150,105,0.25)"
+                isDark ? "rgba(212,160,83,0.3)" : "rgba(184,134,11,0.25)"
               }`,
             }}
           >
             <motion.div
               className="w-1 h-2 rounded-full"
-              style={{ background: "#10B981" }}
+              style={{ background: "#D4A053" }}
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             />

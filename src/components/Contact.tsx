@@ -7,8 +7,8 @@ import { SiGithub, SiLinkedin, SiWhatsapp } from "react-icons/si";
 import { useLang } from "./LanguageProvider";
 
 const focusStyle = {
-  borderColor: "#3B82F6",
-  boxShadow: "0 0 0 3px rgba(59,130,246,0.1)",
+  borderColor: "#D4A053",
+  boxShadow: "0 0 0 3px rgba(212,160,83,0.1)",
 };
 
 const blurStyle = {
@@ -53,7 +53,7 @@ export default function Contact() {
       icon: HiOutlineEnvelope,
       title: t.contact.email,
       value: "contacto@levelai.com.mx",
-      accent: "#3B82F6",
+      accent: "#D4A053",
       href: "mailto:contacto@levelai.com.mx",
     },
     {
@@ -69,7 +69,7 @@ export default function Contact() {
       icon: HiOutlineMapPin,
       title: t.contact.label === "Contacto" ? "Ubicación" : "Location",
       value: t.contact.loc,
-      accent: "#F59E0B",
+      accent: "#C9A96E",
     },
   ];
 
@@ -88,15 +88,15 @@ export default function Contact() {
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <div
           className="absolute bottom-[10%] left-[30%] w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ background: "#3B82F6", opacity: 0.03 }}
+          style={{ background: "#D4A053", opacity: 0.03 }}
         />
         <div
           className="absolute top-[20%] right-[15%] w-[400px] h-[400px] rounded-full blur-[100px]"
-          style={{ background: "#F59E0B", opacity: 0.02 }}
+          style={{ background: "#E87461", opacity: 0.02 }}
         />
         <div
           className="absolute top-[50%] left-[10%] w-[300px] h-[300px] rounded-full blur-[100px]"
-          style={{ background: "#10B981", opacity: 0.02 }}
+          style={{ background: "#C9A96E", opacity: 0.02 }}
         />
       </motion.div>
 
@@ -110,7 +110,7 @@ export default function Contact() {
         >
           <motion.span
             className="text-sm tracking-[0.25em] uppercase mb-5 block font-bold"
-            style={{ color: "#3B82F6" }}
+            style={{ color: "var(--accent-1)" }}
             initial={{ opacity: 0, letterSpacing: "0.5em" }}
             animate={inView ? { opacity: 1, letterSpacing: "0.25em" } : {}}
             transition={{ duration: 1, delay: 0.1 }}
@@ -126,7 +126,7 @@ export default function Contact() {
             <span
               className="animated-gradient"
               style={{
-                background: "linear-gradient(135deg, #3B82F6, #10B981, #F59E0B)",
+                background: "linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundSize: "200% 200%",
@@ -156,7 +156,7 @@ export default function Contact() {
             transition={{ delay: 0.2, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <div
-              className="rounded-3xl p-8 md:p-10 backdrop-blur-sm"
+              className="rounded-3xl p-8 md:p-10 backdrop-blur-sm card-shadow"
               style={{ background: "var(--bg-card)", border: "1px solid var(--border-subtle)" }}
             >
               <form
@@ -277,7 +277,7 @@ export default function Contact() {
                   <div
                     className="absolute inset-0 transition-all duration-500"
                     style={{
-                      background: "linear-gradient(135deg, #3B82F6, #10B981, #3B82F6)",
+                      background: "linear-gradient(135deg, #B8860B, #D4A053, #B8860B)",
                       backgroundSize: "200% 200%",
                       backgroundPosition: "0% 50%",
                     }}
@@ -285,13 +285,13 @@ export default function Contact() {
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      background: "linear-gradient(135deg, #3B82F6, #10B981, #3B82F6)",
+                      background: "linear-gradient(135deg, #B8860B, #D4A053, #B8860B)",
                       backgroundSize: "200% 200%",
                       animation: "gradient-shift 3s ease infinite",
                     }}
                   />
                   {/* Hover shadow deepener */}
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_10px_40px_rgba(59,130,246,0.3)]" />
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_10px_40px_rgba(212,160,83,0.3)]" />
                   <span className="relative z-10 text-sm font-bold text-white tracking-wide flex items-center justify-center gap-2">
                     {sent ? (
                       <motion.span

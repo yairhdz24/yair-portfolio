@@ -4,6 +4,7 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useLang } from "./LanguageProvider";
+import TextReveal from "./TextReveal";
 
 function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [val, setVal] = useState(0);
@@ -27,7 +28,7 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-function CurvedUnderline({ color = "#8B5CF6", delay = 0 }: { color?: string; delay?: number }) {
+function CurvedUnderline({ color = "#D4A053", delay = 0 }: { color?: string; delay?: number }) {
   return (
     <motion.svg
       viewBox="0 0 200 12"
@@ -70,19 +71,19 @@ export default function About() {
 
   return (
     <section id="sobre-mi" className="relative py-20 md:py-28 px-6 overflow-hidden" ref={containerRef}>
-      {/* Background ambient parallax blobs */}
+      {/* Background ambient parallax blobs — new palette */}
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY }}>
         <div
           className="absolute top-[15%] left-[25%] w-[700px] h-[500px] rounded-full blur-[200px]"
-          style={{ background: "#8B5CF6", opacity: 0.05 }}
+          style={{ background: "#D4A053", opacity: 0.04 }}
         />
         <div
           className="absolute top-[45%] right-[15%] w-[600px] h-[400px] rounded-full blur-[180px]"
-          style={{ background: "#06B6D4", opacity: 0.03 }}
+          style={{ background: "#E87461", opacity: 0.03 }}
         />
         <div
           className="absolute bottom-[10%] left-[50%] w-[400px] h-[300px] rounded-full blur-[150px]"
-          style={{ background: "#8B5CF6", opacity: 0.03 }}
+          style={{ background: "#C9A96E", opacity: 0.03 }}
         />
       </motion.div>
 
@@ -91,7 +92,7 @@ export default function About() {
         <div className="mb-16 md:mb-24">
           <motion.span
             className="text-sm tracking-[0.25em] uppercase mb-5 block font-bold"
-            style={{ color: "#8B5CF6" }}
+            style={{ color: "var(--accent-1)" }}
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
@@ -107,11 +108,11 @@ export default function About() {
           >
             <span className="relative inline-block" style={{ color: "var(--text)" }}>
               Yair
-              {inView && <CurvedUnderline color="#8B5CF6" delay={0.8} />}
+              {inView && <CurvedUnderline color="var(--accent-1)" delay={0.8} />}
             </span>{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #8B5CF6, #06B6D4)",
+                background: "linear-gradient(135deg, var(--accent-1), var(--accent-2))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -136,7 +137,6 @@ export default function About() {
                 className="relative h-[450px] md:h-[550px] rounded-3xl overflow-hidden"
                 style={{ border: "1px solid var(--border-subtle)" }}
               >
-                {/* Fallback gradient if no image */}
                 <div
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(135deg, var(--bg-card), var(--text-ghost))" }}
@@ -148,27 +148,21 @@ export default function About() {
                   className="object-cover object-top"
                   priority
                 />
-                {/* Soft blur edges overlay */}
                 <div
                   className="absolute inset-0 pointer-events-none"
-                  style={{
-                    boxShadow: "inset 0 0 60px 30px var(--bg)",
-                  }}
+                  style={{ boxShadow: "inset 0 0 60px 30px var(--bg)" }}
                 />
-                {/* Bottom gradient overlay */}
                 <div
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(to top, var(--bg) 0%, transparent 40%)" }}
                 />
-                {/* Top subtle gradient */}
                 <div
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(to bottom, var(--bg) 0%, transparent 15%)" }}
                 />
-                {/* Status indicator at bottom */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-[2]">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--accent-1)" }} />
                     <span
                       className="text-xs font-bold tracking-[0.15em] uppercase"
                       style={{ color: "rgba(255,255,255,0.7)" }}
@@ -195,11 +189,11 @@ export default function About() {
             >
               <div
                 className="pl-8 md:pl-10 relative"
-                style={{ borderLeft: "2px solid rgba(139,92,246,0.2)" }}
+                style={{ borderLeft: "2px solid rgba(212,160,83,0.15)" }}
               >
                 <motion.div
                   className="absolute left-0 top-0 w-[2px]"
-                  style={{ background: "linear-gradient(to bottom, #8B5CF6, #06B6D4)" }}
+                  style={{ background: "linear-gradient(to bottom, var(--accent-1), var(--accent-2))" }}
                   initial={{ height: 0 }}
                   animate={inView ? { height: "100%" } : {}}
                   transition={{ delay: 0.5, duration: 1.2, ease: "easeOut" }}
@@ -218,7 +212,7 @@ export default function About() {
                       <motion.path
                         d="M0 6 Q75 0, 150 4 T300 2"
                         fill="none"
-                        stroke="#8B5CF6"
+                        stroke="var(--accent-1)"
                         strokeWidth="2"
                         strokeLinecap="round"
                         initial={{ pathLength: 0, opacity: 0 }}
@@ -232,67 +226,72 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Bio text with scroll reveal */}
-            <motion.div
-              className="mb-10"
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <p
+            {/* Bio text with GSAP text reveal */}
+            <div className="mb-10">
+              <TextReveal
+                as="p"
                 className="text-base md:text-lg leading-[1.9] mb-5"
                 style={{ color: "var(--text-dim)" }}
+                animationType="fade-blur"
+                stagger={0.03}
+                delay={0.2}
               >
                 {t.about.bio1}
-              </p>
-              <p
+              </TextReveal>
+              <TextReveal
+                as="p"
                 className="text-base md:text-lg leading-[1.9]"
                 style={{ color: "var(--text-dim)" }}
+                animationType="fade-blur"
+                stagger={0.03}
+                delay={0.4}
               >
                 {t.about.bio2}
-              </p>
-            </motion.div>
+              </TextReveal>
+            </div>
 
-            {/* Stats 2x2 grid - glass cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {t.about.stats.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  className="group p-5 rounded-2xl transition-all duration-500 hover:scale-[1.02]"
-                  style={{
-                    background: "var(--text-ghost)",
-                    border: "1px solid var(--border-subtle)",
-                    backdropFilter: "blur(12px)",
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.4 + i * 0.1, duration: 0.6 }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#8B5CF6";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "var(--border-subtle)";
-                  }}
-                >
-                  <p
-                    className="text-3xl md:text-4xl font-bold mb-1"
-                    style={{
-                      fontFamily: "'Garet', sans-serif",
-                      background: "linear-gradient(135deg, #8B5CF6, #06B6D4)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
+            {/* Stats — horizontal with animated progress bars */}
+            <div className="space-y-5">
+              {t.about.stats.map((s, i) => {
+                const accents = ["var(--accent-1)", "var(--accent-2)", "var(--accent-1)", "var(--accent-3)"];
+                const widths = ["92%", "75%", "85%", "99%"];
+                return (
+                  <motion.div
+                    key={s.label}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ delay: 0.5 + i * 0.12, duration: 0.7 }}
                   >
-                    <Counter target={statValues[i].n} suffix={statValues[i].s} />
-                  </p>
-                  <p
-                    className="text-xs font-medium"
-                    style={{ color: "var(--text-faint)" }}
-                  >
-                    {s.label}
-                  </p>
-                </motion.div>
-              ))}
+                    <div className="flex items-baseline justify-between mb-2">
+                      <p className="text-sm font-medium" style={{ color: "var(--text-dim)" }}>
+                        {s.label}
+                      </p>
+                      <p
+                        className="text-2xl md:text-3xl font-bold tabular-nums"
+                        style={{
+                          fontFamily: "'Garet', sans-serif",
+                          color: accents[i],
+                        }}
+                      >
+                        <Counter target={statValues[i].n} suffix={statValues[i].s} />
+                      </p>
+                    </div>
+                    {/* Progress bar */}
+                    <div
+                      className="h-1 rounded-full overflow-hidden"
+                      style={{ background: "var(--text-ghost)" }}
+                    >
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ background: accents[i] }}
+                        initial={{ width: 0 }}
+                        animate={inView ? { width: widths[i] } : {}}
+                        transition={{ delay: 0.7 + i * 0.12, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>

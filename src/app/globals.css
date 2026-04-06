@@ -37,25 +37,25 @@
 :root {
   --radius: 0.625rem;
 
-  /* Dark mode (default) */
-  --bg: #0F172A;
-  --bg-card: #1E293B;
-  --bg-elevated: #334155;
-  --bg-input: rgba(148, 163, 184, 0.06);
-  --text: #F1F5F9;
-  --text-dim: #CBD5E1;
-  --text-muted: #94A3B8;
-  --text-faint: #64748B;
-  --text-ghost: rgba(241, 245, 249, 0.06);
-  --border-subtle: rgba(148, 163, 184, 0.08);
-  --border-hover: rgba(148, 163, 184, 0.15);
-  --glass-bg: rgba(30, 41, 59, 0.65);
-  --glass-hover: rgba(39, 53, 72, 0.75);
-  --glass-border: rgba(148, 163, 184, 0.07);
-  --blue: #3B82F6;
-  --emerald: #10B981;
-  --amber: #F59E0B;
-  --vignette-color: #0F172A;
+  /* Dark mode (default) — warm premium black */
+  --bg: #0A0A0A;
+  --bg-card: #141414;
+  --bg-elevated: #1E1E1E;
+  --bg-input: rgba(255, 255, 255, 0.04);
+  --text: #F0EDE8;
+  --text-dim: #BDB8AF;
+  --text-muted: #868179;
+  --text-faint: #5C5750;
+  --text-ghost: rgba(255, 255, 255, 0.04);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --glass-bg: rgba(20, 20, 20, 0.7);
+  --glass-hover: rgba(30, 30, 30, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --accent-1: #D4A053;   /* Warm gold — primary */
+  --accent-2: #E87461;   /* Coral — secondary */
+  --accent-3: #C9A96E;   /* Muted gold — tertiary */
+  --vignette-color: #0A0A0A;
 
   /* shadcn vars */
   --background: var(--bg);
@@ -64,39 +64,39 @@
   --card-foreground: var(--text);
   --popover: var(--bg-card);
   --popover-foreground: var(--text);
-  --primary: var(--blue);
+  --primary: var(--accent-1);
   --primary-foreground: #ffffff;
   --secondary: var(--bg-card);
   --secondary-foreground: var(--text);
   --muted: var(--bg-card);
   --muted-foreground: var(--text-muted);
-  --accent: var(--emerald);
+  --accent: var(--accent-2);
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --border: var(--border-subtle);
   --input: var(--bg-input);
-  --ring: var(--blue);
+  --ring: var(--accent-1);
 }
 
 :root.light {
-  --bg: #F8FAFC;
+  --bg: #FAF9F7;
   --bg-card: #FFFFFF;
-  --bg-elevated: #F1F5F9;
-  --bg-input: rgba(15, 23, 42, 0.04);
-  --text: #0F172A;
-  --text-dim: #334155;
-  --text-muted: #64748B;
-  --text-faint: #94A3B8;
-  --text-ghost: rgba(15, 23, 42, 0.04);
-  --border-subtle: rgba(15, 23, 42, 0.07);
-  --border-hover: rgba(15, 23, 42, 0.15);
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-hover: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(15, 23, 42, 0.06);
-  --blue: #2563EB;
-  --emerald: #059669;
-  --amber: #D97706;
-  --vignette-color: #F8FAFC;
+  --bg-elevated: #F3F1ED;
+  --bg-input: rgba(0, 0, 0, 0.03);
+  --text: #1A1815;
+  --text-dim: #3D3A35;
+  --text-muted: #78736B;
+  --text-faint: #A8A29E;
+  --text-ghost: rgba(0, 0, 0, 0.03);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.16);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-hover: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --accent-1: #B8860B;
+  --accent-2: #D4604A;
+  --accent-3: #A07830;
+  --vignette-color: #FAF9F7;
 }
 
 @layer base {
@@ -109,7 +109,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Lenis handles smooth scrolling */
 }
 
 body {
@@ -121,14 +121,14 @@ body {
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
+  background: rgba(212, 160, 83, 0.3);
   color: var(--text);
 }
 
-::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.5); }
+::-webkit-scrollbar-thumb { background: rgba(212, 160, 83, 0.25); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212, 160, 83, 0.45); }
 
 /* ======== ANIMATED GRADIENT ======== */
 @keyframes gradient-shift {
@@ -142,7 +142,7 @@ body {
 
 /* ======== GLOW ======== */
 .glow-text {
-  text-shadow: 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1);
+  text-shadow: 0 0 40px rgba(212, 160, 83, 0.3), 0 0 80px rgba(212, 160, 83, 0.1);
 }
 
 /* ======== GLASS ======== */
@@ -157,6 +157,19 @@ body {
   border-color: var(--border-hover);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   transform: translateY(-4px);
+}
+
+/* ======== LIGHT MODE IMPROVEMENTS ======== */
+:root.light .card-shadow {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05), 0 8px 32px rgba(0,0,0,0.03);
+}
+:root.light .card-shadow:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07), 0 16px 48px rgba(0,0,0,0.08);
+}
+/* Better border visibility in light mode */
+:root.light {
+  --border-subtle: rgba(0, 0, 0, 0.10);
+  --border-hover: rgba(0, 0, 0, 0.18);
 }
 
 /* ======== GRAIN ======== */
@@ -200,4 +213,62 @@ body {
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+/* ======== REVEAL LINE ======== */
+@keyframes reveal-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.reveal-line {
+  transform-origin: left;
+  animation: reveal-line 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ======== PULSE GLOW ======== */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 160, 83, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(212, 160, 83, 0.3), 0 0 60px rgba(212, 160, 83, 0.1); }
+}
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ======== STAGGER FADE ======== */
+@keyframes stagger-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== NOISE / STATIC ======== */
+@keyframes noise {
+  0%, 100% { background-position: 0 0; }
+  10% { background-position: -5% -10%; }
+  20% { background-position: -15% 5%; }
+  30% { background-position: 7% -25%; }
+  40% { background-position: -5% 25%; }
+  50% { background-position: -15% 10%; }
+  60% { background-position: 15% 0%; }
+  70% { background-position: 0% 15%; }
+  80% { background-position: 3% 35%; }
+  90% { background-position: -10% 10%; }
+}
+
+/* ======== MAGNETIC HOVER GLOW ======== */
+.magnetic-glow {
+  position: relative;
+}
+.magnetic-glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  opacity: 0;
+  z-index: -1;
+  filter: blur(14px);
+  transition: opacity 0.5s ease;
+}
+.magnetic-glow:hover::after {
+  opacity: 0.6;
 }
